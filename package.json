@@ -1,0 +1,15 @@
+{
+  "name": "petshopautomation",
+  "version": "1.0.0",
+  "description": "Pet shop e2e automation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Omkar Taralekar",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^13.13.1",
+    "cypress-xpath": "^2.0.1"
+  }
+}
