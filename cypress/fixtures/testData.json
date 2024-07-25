@@ -5,5 +5,16 @@
   "password": "Test1234",
   "adminUser":"admin@buckhill.co.uk",
   "adminPassword":"admin",
-  "productText":"Dog Food"
+  "productText":"Dog Food",
+  "firstName":"John",
+  "lastName":"Sage",
+  "addressLine1":"Downtown hill",
+  "addressLine2":"Near Chatrapati School",
+  "city":"Satara",
+  "state":"Maharashtra",
+  "zipCode":"415102",
+  "country":"Bharat",
+  "creditCardNumber":"4147673111881447",
+  "expiry":"10/28",
+  "cvv":"254"
 }
