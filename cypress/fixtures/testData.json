@@ -1,10 +1,7 @@
 {
   "customerUrl":"https://pet-shop.buckhill.com.hr/",
-  "adminUrl":"https://pet-shop.buckhill.com.hr/login",
   "username": "omkarraj007@gmail.com",
   "password": "Test1234",
-  "adminUser":"admin@buckhill.co.uk",
-  "adminPassword":"admin",
   "productText":"Dog Food",
   "firstName":"John",
   "lastName":"Sage",
