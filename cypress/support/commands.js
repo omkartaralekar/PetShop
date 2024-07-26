@@ -1,6 +1,6 @@
 /// <reference types="cypress-xpath" />
 import 'cypress-xpath';
-
+import 'cypress-file-upload';
 // cypress/support/commands.js
 
 //-- This will login in application using Customer credentials --
@@ -18,6 +18,21 @@ Cypress.Commands.add('customerlogin', (url, username, password) => {
       });
 });
 
+//-- This will login in admin portal using admin credentials --
+Cypress.Commands.add('adminlogin', (url, username, password) => {
+  cy.visit(url)
+      .title().should('eq', 'Login')  // Assert the page title
+      .then(() => {
+          // Perform actions after title assertion
+          cy.checkElementExistence('.logo-wrapper');     // Assert logo exists
+          cy.xpath('//label[text()="Email"]/following-sibling::input').type(username);  // Type username
+          cy.xpath('//label[text()="Password"]/following-sibling::input').type(password);  // Type password
+          cy.clickElement('.v-btn');  // Click on Login button
+      });
+});
+
+
+
   //-- This command will search product from customer portal --
 Cypress.Commands.add('productSearch', (productName) => {
     cy.xpath('//label[text()="Search products"]/following-sibling::input').type(productName).then(($input) => {
@@ -26,6 +41,22 @@ Cypress.Commands.add('productSearch', (productName) => {
         $input[0].dispatchEvent(enterEvent);
     });
   });
+
+  //-- This command will Add new  product from admin portal --
+  Cypress.Commands.add('addNewProductSearch', (dynamicSelector,productImage,brandName,productName,productCategory,price,productDesc) => {
+    //cy.clickElementByXpath('//span[text()=" add new product "]')
+    cy.clickElement('.table-header__content > .v-btn')
+    cy.uploadFile(dynamicSelector,productImage)
+    cy.clickElementByXpath('//label[text()="Brand name"]/following-sibling::div')
+    cy.clickElementByXpath('//div[text()="manapro"]')
+    cy.xpath('//label[text()="Product name"]/following-sibling::input').type(productName)
+    cy.clickElementByXpath('//label[text()="Category"]/following-sibling::div')
+    cy.clickElementByXpath('//div[text()="wet pet food"]')
+    cy.xpath('//label[text()="Price"]/following-sibling::input').type(price)
+    cy.xpath('//label[text()="Description"]/following-sibling::textarea').type(productDesc)
+    cy.clickElementByXpath('//span[text()=" save changes "]')
+  });
+
 
 //-- This command will Perform Click on locator that passed
   Cypress.Commands.add('clickElement', (locator) => {
@@ -97,12 +128,30 @@ Cypress.Commands.add('checkCheckbox', (locator) => {
 
 
 //Command to Select Credit Card as payment mode and fill details.
-
 Cypress.Commands.add('selectCreditCardMode', (creditCardNumber,expiry,cvv) => {
   cy.clickElementByXpath('//p[text()="Credit Card"]');
   cy.xpath('//label[text()="Credit Card number *"]/following-sibling::input').type(creditCardNumber);
   cy.xpath('//label[text()="Expiry *"]/following-sibling::input').type(expiry);
   cy.xpath('//label[text()="CVV *"]/following-sibling::input').type(cvv);
+});
+
+//Command to Upload new file.
+Cypress.Commands.add('uploadFile', (dynamicSelector,fileName) => {
+
+  const filePath = `uploadImages/${fileName}`;
+   // Load the file from the fixtures folder
+   cy.fixture(filePath).then(fileContent => {
+     // Convert the file content to Blob format
+     const blob = Cypress.Blob.base64StringToBlob(fileContent, 'image/jpeg');
+      const file = new File([blob], filePath, { type: 'image/jpeg' });
+
+      // Attach the file using the attachFile command
+      cy.get(dynamicSelector).attachFile({
+        fileContent: file,
+        fileName: filePath,
+        mimeType: 'image/jpeg',
+     });
+   });
 });
   
   
